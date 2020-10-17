@@ -39,7 +39,7 @@ int flow;
 char interface[MAXINTERFACELENGTH];
 
 void usage() {
-	printf("wrong format!\n");
+	printf("> wrong format!\n");
         printf("send-arp <interface> <sender ip> <target ip> [<sender ip 2> <target ip 2> ...]\n");
         printf("sample : arp-spoof wlan0 192.168.10.2 192.168.10.1\n");
 }
@@ -93,7 +93,7 @@ void printAtkInfo() {
 	printf("Ip addr : ");
 	printIp(attacker_ip);
 	printf("\n");
-	printf("============================\n\n\n");
+	printf("============================\n\n");
 }
 
 void printSpoofInfo(int i) {
@@ -169,10 +169,10 @@ bool getSpoofInfo() {
                 }
 		printf("> done!\n");
         }
-
+	printf("\nprinting flow info...\n");
 	for(int i = 0 ; i < flow ; i++)
                 printSpoofInfo(i);
-
+	printf("> done!\n");
 	return true;
 }
 
@@ -196,8 +196,8 @@ bool startAtk() {
 }
 
 bool keepAtk() {
-	printf("\nnow relaying packets...\n");
-	printf("press q to end process\n");
+	printf("\nrelaying packets...\n");
+	printf("press q to exit process\n");
 	if(keepSpoof(interface, &attacker_mac, &attacker_ip, sender_mac, sender_ip, target_mac, target_ip, flow) == false) {
 		printf("attack failed!\n");
 		printf("program terminated!\n");
@@ -208,7 +208,7 @@ bool keepAtk() {
 }
 
 void endProcess() {
-	printf("recovering arp tables...\n");
+	printf("\nrecovering arp tables...\n");
 	endSpoof(interface, &attacker_mac, sender_mac, sender_ip, target_mac, target_ip, flow);
 	printf("> done!\n");
 	attacker_mac = Mac("00:00:00:00:00:00");
@@ -221,7 +221,7 @@ void endProcess() {
 	flow = 0;
 	memset(interface, 0, MAXINTERFACELENGTH);
 
-	printf("process end!\n");
+	printf("\nprocess end!\n");
 }
 
 int main(int argc, char* argv[]) {
